@@ -8,8 +8,12 @@ var isAlpha = function (ch: string) {
 function App() {
   const [allAttempts, setAllAttempts] = useState<string[]>([]);
   const [currentAttempt, setCurrentAttempt] = useState<string>("");
+  const [gameOver, setGameOver] = useState<boolean>(false);
   const handleKeyPress = (ev: KeyboardEvent) => {
-    if (!isAlpha(ev.key) && ev.key !== "Backspace" && ev.key !== "Enter") {
+    if (
+      (!isAlpha(ev.key) && ev.key !== "Backspace" && ev.key !== "Enter") ||
+      gameOver
+    ) {
       return;
     }
     if (isAlpha(ev.key) && currentAttempt.length < wordOfTheDay.length) {
@@ -24,6 +28,7 @@ function App() {
       if (currentAttempt.length !== 5) return;
       setAllAttempts((prevAllAttempts) => [...prevAllAttempts, currentAttempt]);
       setCurrentAttempt("");
+      if (currentAttempt.toUpperCase() === wordOfTheDay) setGameOver(true);
     }
   };
   useEffect(() => {
@@ -34,11 +39,11 @@ function App() {
 
   for (let i = 0; i < 5; i++) {
     if (i < allAttempts.length) {
-      rows.push(<Attempt content={allAttempts[i]} />);
+      rows.push(<Attempt key={i} solved content={allAttempts[i]} />);
     } else if (i === allAttempts.length) {
-      rows.push(<Attempt content={currentAttempt} />);
+      rows.push(<Attempt key={i} solved={false} content={currentAttempt} />);
     } else {
-      rows.push(<Attempt content="" />);
+      rows.push(<Attempt key={i} solved={false} content="" />);
     }
   }
 
