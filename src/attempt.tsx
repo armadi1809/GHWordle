@@ -32,7 +32,7 @@ const Attempt = ({ content, solved }: { content: string; solved: boolean }) => {
   for (let i = 0; i < 5; i++) {
     var backgroundColor = "";
     if (solved) {
-      backgroundColor = getBgColor(content[i], i, "HELLO");
+      backgroundColor = getBgColor(content[i], i, "JASON");
     }
     const backGroundColorClass = "bg-[" + backgroundColor + "]";
     cells.push(
